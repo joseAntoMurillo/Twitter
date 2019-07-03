@@ -95,4 +95,8 @@
     [self.tableView reloadData];
 }
 
+- (IBAction)clickLogout:(id)sender {
+}
+
+
 @end
