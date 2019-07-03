@@ -81,6 +81,15 @@
     cell.posterView.image = nil;
     [cell.posterView setImageWithURL:profileURL];
     
+    [cell.favorIcon setImage: [UIImage imageNamed:@"favor-icon"]
+                    forState: UIControlStateNormal];
+    [cell.favorIcon setImage: [UIImage imageNamed:@"favor-icon-red"]
+                    forState: UIControlStateSelected];
+    [cell.retweetIcon setImage: [UIImage imageNamed:@"retweet-icon"]
+                      forState: UIControlStateNormal];
+    [cell.retweetIcon setImage: [UIImage imageNamed:@"retweet-icon-green"]
+                      forState: UIControlStateSelected];
+    
     return cell;
 }
 
