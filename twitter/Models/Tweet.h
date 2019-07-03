@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 // Properties For Retweets
 @property (strong, nonatomic) User *retweetedByUser;  // user who retweeted if tweet is retweet
 
+// Create initializer
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 + (NSMutableArray *)tweetsWithArray:(NSArray *)dictionaries;
 
 @end

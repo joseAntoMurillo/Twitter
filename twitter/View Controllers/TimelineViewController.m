@@ -8,8 +8,16 @@
 
 #import "TimelineViewController.h"
 #import "APIManager.h"
+#import "TweetCell.h"
+#import "Tweet.h"
+#import "UIImageView+AFNetworking.h"
+#import "ComposeViewController.h"
 
-@interface TimelineViewController ()
+@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
+
+@property (strong, nonatomic) NSMutableArray *tweetsArray;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -18,18 +26,66 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
+    [self fetchTweets];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents: UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+}
+
+- (void) fetchTweets {
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
-            NSLog(@"😎😎😎 Successfully loaded home timeline");
-            for (NSDictionary *dictionary in tweets) {
-                NSString *text = dictionary[@"text"];
-                NSLog(@"%@", text);
-            }
+            
+            self.tweetsArray = tweets;
+            [self.tableView reloadData];
+            self.tableView.rowHeight = 150.0;
+            
+            /*
+             NSLog(@"😎😎😎 Successfully loaded home timeline");
+             for (NSDictionary *dictionary in tweets) {
+             NSString *text = dictionary[@"text"];
+             NSLog(@"%@", text);
+             }
+             */
+            
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
+        [self.refreshControl endRefreshing];
     }];
+}
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    
+    // Creates an objet to represent a cell
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
+    
+    // Objects to hold each tweet's data
+    Tweet *tweet = self.tweetsArray[indexPath.row];
+    User *tweetUser = tweet.user;
+    
+    cell.authorView.text = tweetUser.name;
+    NSString *username = [@"@" stringByAppendingString: tweetUser.screenName];
+    cell.userView.text = username;
+    
+    cell.dateView.text = tweet.createdAtString;
+    cell.tweetView.text = tweet.text;
+    
+    NSString *profileImg = tweetUser.profileURL;
+    NSURL *profileURL = [NSURL URLWithString:profileImg];
+    cell.posterView.image = nil;
+    [cell.posterView setImageWithURL:profileURL];
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.tweetsArray.count;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,15 +93,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    UINavigationController *navigationController = [segue destinationViewController];
+    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+    composeController.delegate = self;
 }
-*/
 
+- (void)didTweet:(nonnull Tweet *)tweet {
+    [self.tweetsArray addObject:tweet];
+    [self.tableView reloadData];
+}
 
 @end
