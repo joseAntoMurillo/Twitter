@@ -65,15 +65,15 @@
         }
         else{
             if (hasRetweeted) {
-                self.tweet.retweeted = NO;
-                self.tweet.retweetCount -= 1;
-                [self.retweetIcon setSelected:NO];
+                self.tweet.favorited = NO;
+                self.tweet.favoriteCount -= 1;
+                [self.favorIcon setSelected:NO];
                 NSLog(@"Successfully unfavorited the following Tweet: %@", tweet.text);
             }
             else {
-                self.tweet.retweeted = YES;
-                self.tweet.retweetCount += 1;
-                [self.retweetIcon setSelected:YES];
+                self.tweet.favorited = YES;
+                self.tweet.favoriteCount += 1;
+                [self.favorIcon setSelected:YES];
                 NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
             }
             [self refreshData];
@@ -115,6 +115,8 @@
     self.userView.text = username;
     self.dateView.text = self.tweet.createdAtString;
     self.tweetView.text = self.tweet.text;
+    self.heartCount.text = [NSString stringWithFormat:@"%d",self.tweet.favoriteCount];
+    self.arrowCount.text = [NSString stringWithFormat:@"%d",self.tweet.retweetCount];
     
     NSString *profileImg = tweetUser.profileURL;
     NSURL *profileURL = [NSURL URLWithString:profileImg];

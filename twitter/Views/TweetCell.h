@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *posterView;
 @property (weak, nonatomic) IBOutlet UIButton *favorIcon;
 @property (weak, nonatomic) IBOutlet UIButton *retweetIcon;
+@property (weak, nonatomic) IBOutlet UILabel *heartCount;
+@property (weak, nonatomic) IBOutlet UILabel *arrowCount;
 
 @property (strong, nonatomic) Tweet *tweet;
 
