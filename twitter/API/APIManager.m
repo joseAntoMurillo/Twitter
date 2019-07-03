@@ -98,8 +98,12 @@ static NSString * const consumerSecret = @"s5ynGqXzstUZwFPxVyMDkYh197qvHOcVM3kwv
     }];
 }
 
-- (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion{
+/* - (void)favorited: () (Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion{
     
+}
+ */
+
+- (void)favorite: (Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion{
     NSString *urlString = @"1.1/favorites/create.json";
     NSDictionary *parameters = @{@"id": tweet.idStr};
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {

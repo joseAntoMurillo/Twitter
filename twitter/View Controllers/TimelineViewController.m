@@ -67,30 +67,10 @@
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     
     // Objects to hold each tweet's data
-    Tweet *tweet = self.tweetsArray[indexPath.row];\
+    Tweet *tweet = self.tweetsArray[indexPath.row];
     cell.tweet = tweet;
-    User *tweetUser = tweet.user;
     
-    cell.authorView.text = tweetUser.name;
-    NSString *username = [@"@" stringByAppendingString: tweetUser.screenName];
-    cell.userView.text = username;
-    
-    cell.dateView.text = tweet.createdAtString;
-    cell.tweetView.text = tweet.text;
-    
-    NSString *profileImg = tweetUser.profileURL;
-    NSURL *profileURL = [NSURL URLWithString:profileImg];
-    cell.posterView.image = nil;
-    [cell.posterView setImageWithURL:profileURL];
-    
-    [cell.favorIcon setImage: [UIImage imageNamed:@"favor-icon"]
-                    forState: UIControlStateNormal];
-    [cell.favorIcon setImage: [UIImage imageNamed:@"favor-icon-red"]
-                    forState: UIControlStateSelected];
-    [cell.retweetIcon setImage: [UIImage imageNamed:@"retweet-icon"]
-                      forState: UIControlStateNormal];
-    [cell.retweetIcon setImage: [UIImage imageNamed:@"retweet-icon-green"]
-                      forState: UIControlStateSelected];
+    [cell refreshData];
     
     return cell;
 }
