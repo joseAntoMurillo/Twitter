@@ -37,10 +37,11 @@
 }
 
 - (void) fetchTweets {
-    // Get timeline
+    // API Manager calls the completion handler passing back data
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             
+            // View controller stores the data passed in the completion handler
             self.tweetsArray = tweets;
             [self.tableView reloadData];
             self.tableView.rowHeight = 150.0;
@@ -66,7 +67,8 @@
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     
     // Objects to hold each tweet's data
-    Tweet *tweet = self.tweetsArray[indexPath.row];
+    Tweet *tweet = self.tweetsArray[indexPath.row];\
+    cell.tweet = tweet;
     User *tweetUser = tweet.user;
     
     cell.authorView.text = tweetUser.name;
