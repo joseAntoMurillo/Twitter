@@ -12,6 +12,8 @@
 #import "Tweet.h"
 #import "UIImageView+AFNetworking.h"
 #import "ComposeViewController.h"
+#import "LoginViewController.h"
+#import "AppDelegate.h"
 
 @interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
 
@@ -96,6 +98,18 @@
 }
 
 - (IBAction)clickLogout:(id)sender {
+    NSLog(@"0");
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSLog(@"1");
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    NSLog(@"2");
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    NSLog(@"3");
+    appDelegate.window.rootViewController = loginViewController;
+    NSLog(@"4");
+    
+    [[APIManager shared] logout];
+    NSLog(@"5");
 }
 
 

@@ -147,14 +147,9 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Home Timeline" id="MOc-fV-EZE">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" style="plain" id="SGq-ep-XNn">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0ks-wn-WPl">
-                                <rect key="frame" x="16" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Logout"/>
-                            </button>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="BEw-wV-NOE">
                             <connections>
-                                <action selector="clickLogout:" destination="Lbl-k5-U4i" id="c4n-Va-So6"/>
+                                <action selector="clickLogout:" destination="Lbl-k5-U4i" id="kZ6-ZH-q49"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="edit-icon" id="bSm-G4-l77">
