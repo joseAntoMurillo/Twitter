@@ -87,8 +87,6 @@
             NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
         }
         else{
-            
-
             if (self.tweet.retweeted) {
                 self.tweet.retweeted = NO;
                 self.tweet.retweetCount -= 1;
@@ -115,8 +113,8 @@
     self.userView.text = username;
     self.dateView.text = self.tweet.createdAtString;
     self.tweetView.text = self.tweet.text;
-    self.heartCount.text = [NSString stringWithFormat:@"%d",self.tweet.favoriteCount];
-    self.arrowCount.text = [NSString stringWithFormat:@"%d",self.tweet.retweetCount];
+    [self.favorIcon setTitle:[NSString stringWithFormat:@"%d",self.tweet.favoriteCount] forState:UIControlStateNormal];
+    [self.retweetIcon setTitle:[NSString stringWithFormat:@"%d",self.tweet.retweetCount] forState:UIControlStateNormal];
     
     NSString *profileImg = tweetUser.profileURL;
     NSURL *profileURL = [NSURL URLWithString:profileImg];

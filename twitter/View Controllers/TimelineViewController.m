@@ -46,7 +46,6 @@
             // View controller stores the data passed in the completion handler
             self.tweetsArray = tweets;
             [self.tableView reloadData];
-            self.tableView.rowHeight = 150.0;
             
             /*
              NSLog(@"😎😎😎 Successfully loaded home timeline");
