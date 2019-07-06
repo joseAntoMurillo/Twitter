@@ -44,10 +44,29 @@
         // Convert String to Date
         NSDate *date = [formatter dateFromString:createdAtOriginalString];
         // Configure output format
-        formatter.dateStyle = NSDateFormatterShortStyle;
-        formatter.timeStyle = NSDateFormatterNoStyle;
-        // Convert Date to String
-        self.createdAtString = [formatter stringFromDate:date];
+        NSDate *convertedDate = [formatter dateFromString:createdAtOriginalString];
+        NSDate *todayDate = [NSDate date];
+        double ti = [convertedDate timeIntervalSinceDate:todayDate];
+        ti = ti * -1;
+        if(ti < 1) {
+            self.createdAtString = @"never";
+        } else  if (ti < 60) {
+            self.createdAtString = @"less than a minute ago";
+        } else if (ti < 3600) {
+            int diff = round(ti / 60);
+            self.createdAtString = [NSString stringWithFormat:@"%d minutes ago", diff];
+        } else if (ti < 86400) {
+            int diff = round(ti / 60 / 60);
+            self.createdAtString = [NSString stringWithFormat:@"%d minutes ago", diff];
+        } else if (ti < 2629743) {
+            int diff = round(ti / 60 / 60 / 24);
+            self.createdAtString = [NSString stringWithFormat:@"%d minutes ago", diff];
+        } else {
+            formatter.dateStyle = NSDateFormatterShortStyle;
+            formatter.timeStyle = NSDateFormatterNoStyle;
+            // Convert Date to String
+            self.createdAtString = [formatter stringFromDate:date];
+        }
     }
     return self;
 }

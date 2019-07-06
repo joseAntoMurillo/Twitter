@@ -14,6 +14,8 @@
 #import "ComposeViewController.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
+#import "DetailsView.h"
+#import "NSDate+DateTools.h"
 
 @interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
 
@@ -44,7 +46,7 @@
         if (tweets) {
             
             // View controller stores the data passed in the completion handler
-            self.tweetsArray = tweets;
+            self.tweetsArray = (NSMutableArray *)tweets;
             [self.tableView reloadData];
             
             /*
@@ -86,13 +88,28 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
+    
+    if ([segue.identifier isEqualToString:@"ComposerView"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+        
+    } else {
+        // Gets appropiate data corresponding to the tweet that the user selected
+        UITableViewCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+        Tweet *tweet = self.tweetsArray[indexPath.row];
+        
+        // Get the new view controller using [segue destinationViewController].
+        DetailsView *detailsView = [segue destinationViewController];
+        
+        // Pass the selected object to the new view controller
+        detailsView.tweet = tweet;
+    }
 }
 
 - (void)didTweet:(nonnull Tweet *)tweet {
-    [self.tweetsArray addObject:tweet];
+    [self.tweetsArray insertObject:tweet atIndex:0];
     [self.tableView reloadData];
 }
 
@@ -110,6 +127,5 @@
     [[APIManager shared] logout];
     NSLog(@"5");
 }
-
 
 @end
