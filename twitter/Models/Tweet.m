@@ -57,10 +57,10 @@
             self.createdAtString = [NSString stringWithFormat:@"%d minutes ago", diff];
         } else if (ti < 86400) {
             int diff = round(ti / 60 / 60);
-            self.createdAtString = [NSString stringWithFormat:@"%d minutes ago", diff];
+            self.createdAtString = [NSString stringWithFormat:@"%d hours ago", diff];
         } else if (ti < 2629743) {
             int diff = round(ti / 60 / 60 / 24);
-            self.createdAtString = [NSString stringWithFormat:@"%d minutes ago", diff];
+            self.createdAtString = [NSString stringWithFormat:@"%d days ago", diff];
         } else {
             formatter.dateStyle = NSDateFormatterShortStyle;
             formatter.timeStyle = NSDateFormatterNoStyle;
